@@ -1,15 +1,15 @@
 import React from "react";
 
-// Components
+// components
 import NavbarComponent from "../components/NavbarComponent";
 
-const ProfilePage = () => {
+const MessagesPage = () => {
   return (
     <>
       <NavbarComponent />
-      <h1>Profile Page</h1>
+      <h1>Messages Page</h1>
     </>
   );
 };
 
-export default ProfilePage;
+export default MessagesPage;

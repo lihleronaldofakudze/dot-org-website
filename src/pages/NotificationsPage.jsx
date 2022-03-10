@@ -3,13 +3,13 @@ import React from "react";
 // Components
 import NavbarComponent from "../components/NavbarComponent";
 
-const ProfilePage = () => {
+const NotificationsPage = () => {
   return (
     <>
       <NavbarComponent />
-      <h1>Profile Page</h1>
+      <h1>Notification Page</h1>
     </>
   );
 };
 
-export default ProfilePage;
+export default NotificationsPage;

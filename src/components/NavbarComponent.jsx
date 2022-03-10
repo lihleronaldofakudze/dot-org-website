@@ -1,4 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
+
+// React Router Dom
+import { useNavigate } from "react-router-dom";
 
 // Icons
 import NotificationIcon from "@mui/icons-material/NotificationsActiveRounded";
@@ -15,37 +18,75 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 
 const NavbarComponent = () => {
+  // Variables
+  const navigate = useNavigate();
+
+  // State
+  const [search, setSearch] = useState("");
+
+  const changePage = (url) => {
+    navigate(url);
+  };
   return (
-    <AppBar position="relative" color="primary" elevation={0}>
+    <AppBar
+      position="relative"
+      color="primary"
+      elevation={0}
+      sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+    >
       <Grid container spacing={1} alignItems="center">
         <Grid item md={3}>
           <Toolbar>
-            <Typography variant="h6">DOT-ORG</Typography>
+            <Typography
+              variant="h6"
+              onClick={() => changePage("/")}
+              sx={{
+                cursor: "pointer",
+                "&:hover": {
+                  color: "#1C1D22",
+                },
+              }}
+            >
+              DOT-ORG
+            </Typography>
           </Toolbar>
         </Grid>
         <Grid item md={6}>
           <TextField
             id="search"
             label="Search"
-            //   value={}
-            //   onChange={}
-            color="textPrimary"
+            variant="outlined"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
             fullWidth
             size="small"
           />
         </Grid>
-        <Grid item md={3}>
-          <Button variant="contained" color="secondary">
-            Register
+        <Grid item container md={3} justifyContent="space-around">
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => changePage("/add_organisation")}
+          >
+            Add Org
           </Button>
-          <IconButton aria-label="notifications">
-            <NotificationIcon />
+          <IconButton
+            aria-label="notifications"
+            onClick={() => changePage("/notifications")}
+          >
+            <NotificationIcon sx={{ color: "#FFFFFF" }} />
           </IconButton>
-          <IconButton aria-label="messages">
-            <ChatIcon />
+          <IconButton
+            aria-label="messages"
+            onClick={() => changePage("/messages")}
+          >
+            <ChatIcon sx={{ color: "#FFFFFF" }} />
           </IconButton>
-          <IconButton aria-label="user">
-            <PersonIcon />
+          <IconButton
+            aria-label="profile"
+            onClick={() => changePage("/profile")}
+          >
+            <PersonIcon sx={{ color: "#FFFFFF" }} />
           </IconButton>
         </Grid>
       </Grid>
