@@ -7,7 +7,6 @@ import { isEmpty } from "react-redux-firebase";
 // Material Icons
 import NotificationIcon from "@mui/icons-material/NotificationsActiveRounded";
 import PersonIcon from "@mui/icons-material/PersonRounded";
-import ChatIcon from "@mui/icons-material/ChatRounded";
 
 // Material UI
 
@@ -42,12 +41,7 @@ const UserComponent = ({ changePage }) => {
           >
             <NotificationIcon sx={{ color: "#FFFFFF" }} />
           </IconButton>
-          <IconButton
-            aria-label="messages"
-            onClick={() => changePage("/messages")}
-          >
-            <ChatIcon sx={{ color: "#FFFFFF" }} />
-          </IconButton>
+
           <IconButton
             aria-label="profile"
             onClick={() => changePage("/profile")}

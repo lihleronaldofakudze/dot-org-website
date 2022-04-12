@@ -1,6 +1,7 @@
 import React from "react";
+
+// .. material ui
 import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
 
 const LoadingPage = () => {
   return (
@@ -11,12 +12,17 @@ const LoadingPage = () => {
       justifyContent="center"
       sx={{
         height: "100vh",
-        bgcolor: 'main.light'
+        bgcolor: "main.light",
       }}
     >
-      <Typography variant="h1" color="initial">
-        Loading....
-      </Typography>
+      <lottie-player
+        src="https://assets9.lottiefiles.com/packages/lf20_aa0wy04q.json"
+        background="transparent"
+        speed="1"
+        style={{ width: 300, height: 300 }}
+        loop
+        autoplay
+      ></lottie-player>
     </Grid>
   );
 };

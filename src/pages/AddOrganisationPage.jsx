@@ -7,7 +7,7 @@ import imageCompressor from "browser-image-compression";
 import AlertDialog from "../dialogs/AlertDialog";
 
 // Firebase
-import { useFirestore } from "react-redux-firebase";
+import { useFirestore, useFirebase } from "react-redux-firebase";
 
 // Data
 import { categories } from "../services/data";
@@ -25,9 +25,10 @@ import MenuItem from "@mui/material/MenuItem";
 const AddOrganisationPage = () => {
   // variables
   const firestore = useFirestore();
+  const firebase = useFirebase();
 
   // States
-  const [logo, setLogo] = useState("");
+  const [logo, setLogo] = useState(null);
   const [companyName, setCompanyName] = useState("");
   const [mainCategory, setMainCategory] = useState("");
   const [telNumber, setTelNumber] = useState("");
@@ -46,51 +47,96 @@ const AddOrganisationPage = () => {
     useWebWorker: true,
   };
 
-  const handleChange = (e) => {
-    const newImage = e.target.files[0];
-    newImage["id"] = Math.random();
-
-    if (options.maxSizeMB >= newImage / 1024) {
-      setMessage("Advert Image should not be greater than 2MB.");
-      setAlert(true);
-    } else {
-      imageCompressor(newImage, options)
-        .then((compressedImage) => {
-          setLogo(compressedImage);
-        })
-        .catch((err) => {
-          setMessage(err);
-          alert(true);
-        });
-    }
-  };
-
   const addOrganisation = async () => {
     setLoading(true);
+    const { uid } = firebase.auth().currentUser;
     if (companyName.length !== 0 && mainCategory.length !== 0) {
-      await firestore
-        .collection("business")
-        .add({
-          logo: logo,
-          companyName: companyName,
-          telNumber: telNumber,
-          cellNumber: cellNumber,
-          emailAddress: emailAddress,
-          mainCategory: mainCategory,
-          likes: [],
-          facebookLink: "",
-          instagramLink: "",
-          weekdaysHours: weekdaysHours,
-          holidaysHours: holidaysHours,
-          poBox: poBox,
-          websiteLink: websiteLink,
-        })
-        .then((response) => {
-          setLoading(false);
-        })
-        .catch((error) => {});
+      if (logo !== null) {
+        await imageCompressor(logo, options)
+          .then(async (compressedImage) => {
+            await firebase
+              .storage()
+              .ref(`logos/${compressedImage.name}`)
+              .put(compressedImage)
+              .then(async (_) => {
+                await firebase
+                  .storage()
+                  .ref("logos")
+                  .child(compressedImage.name)
+                  .getDownloadURL()
+                  .then(async (url) => {
+                    await firestore
+                      .collection("business")
+                      .add({
+                        uid: uid,
+                        image: url,
+                        companyName: companyName,
+                        telNumber: telNumber,
+                        cellNumber: cellNumber,
+                        emailAddress: emailAddress,
+                        mainCategory: mainCategory,
+                        likes: [],
+                        facebookLink: "",
+                        instagramLink: "",
+                        linkedInLink: "",
+                        description: "",
+                        weekdaysHours: weekdaysHours,
+                        holidaysHours: holidaysHours,
+                        poBox: poBox,
+                        websiteLink: websiteLink,
+                        postedAt: firebase.firestore.Timestamp.fromDate(
+                          new Date()
+                        ),
+                        updatedAt: firebase.firestore.Timestamp.fromDate(
+                          new Date()
+                        ),
+                      })
+                      .then((response) => {
+                        setCompanyName("");
+                        setTelNumber("");
+                        setCellNumber("");
+                        setEmailAddress("");
+                        setMainCategory();
+                        setWeekdaysHours("");
+                        setHolidaysHours("");
+                        setPoBox("");
+                        setWebsiteLink("");
+                        setLoading(false);
+                      })
+                      .catch((error) => {
+                        setLoading(false);
+                        setMessage(error.message);
+                        setAlert(true);
+                      });
+                  })
+                  .catch((error) => {
+                    setLoading(false);
+                    setMessage(error);
+                    setAlert(true);
+                  });
+              })
+              .catch((error) => {
+                setLoading(false);
+                setMessage(error);
+                setAlert(true);
+              });
+          })
+          .catch((error) => {
+            setLoading(false);
+            setMessage(error);
+            setAlert(true);
+          });
+      } else {
+        setLoading(false);
+        setMessage("Please choose logo.");
+        setAlert(true);
+      }
     } else {
-      //
+      setLoading(false);
+      setMessage(
+        "Company Name & Category are required to register your organisation."
+      );
+      setAlert(true);
     }
   };
 
@@ -119,21 +165,40 @@ const AddOrganisationPage = () => {
         >
           {logo ? (
             <Avatar
-              sx={{ width: 200, height: 200 }}
+              sx={{
+                mt: 3,
+                height: 200,
+                bgcolor: "warning",
+                width: "100%",
+              }}
               src={URL.createObjectURL(logo).toString()}
+              variant="square"
             />
           ) : (
-            <Avatar sx={{ width: 200, height: 200 }} />
+            <Avatar
+              variant="square"
+              sx={{
+                mt: 3,
+                height: 200,
+                bgcolor: "warning",
+                width: "100%",
+              }}
+            />
           )}
           <Button
             variant="contained"
-            color="success"
+            color="primary"
             component="label"
             size="small"
-            sx={{ my: 1 }}
+            sx={{ my: 2 }}
           >
-            Change Logo
-            <input type="file" hidden multiple onChange={handleChange} />
+            Change Cover Image
+            <input
+              type="file"
+              hidden
+              multiple
+              onChange={(e) => setLogo(e.target.files[0])}
+            />
           </Button>
         </Grid>
         <Grid item md={6} xs={12}>
@@ -254,7 +319,7 @@ const AddOrganisationPage = () => {
       <LoadingButton
         variant="contained"
         loading={loading}
-        color="primary"
+        color="secondary"
         fullWidth
         onClick={() => addOrganisation()}
       >

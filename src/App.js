@@ -15,6 +15,7 @@ import ProfilePage from "./pages/ProfilePage";
 import CategoryPage from "./pages/CategoryPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 
 const App = () => {
   return (
@@ -33,6 +34,11 @@ const App = () => {
           <Route exact path="/category/:category" element={<CategoryPage />} />
           <Route exact path="/login" element={<LoginPage />} />
           <Route exact path="/register" element={<RegisterPage />} />
+          <Route
+            exact
+            path="/forgot_password"
+            element={<ForgotPasswordPage />}
+          />
         </Routes>
       </NavbarComponent>
     </BrowserRouter>

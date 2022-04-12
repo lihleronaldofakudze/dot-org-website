@@ -1,8 +1,5 @@
 const categories = [
   {
-    main: "All Categories",
-  },
-  {
     main: "Automotive",
     sub: [
       "Auto Accessories",

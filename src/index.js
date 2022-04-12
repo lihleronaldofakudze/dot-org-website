@@ -28,8 +28,8 @@ const theme = createTheme({
       constrastText: "#FFFFFF",
     },
     secondary: {
-      main: "#FFFFFF",
-      constrastText: "#0B0F10",
+      main: "#F26522",
+      constrastText: "#FFFFFF",
     },
   },
 });

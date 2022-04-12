@@ -3,6 +3,9 @@ import React from "react";
 // Data
 import { categories } from "../services/data";
 
+// Images
+import Logo from "../images/dotorg.png";
+
 // Material UI
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
@@ -10,7 +13,6 @@ import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import ListItemText from "@mui/material/ListItemText";
-import Toolbar from "@mui/material/Toolbar";
 
 const drawerWidth = 240;
 
@@ -31,8 +33,16 @@ const DrawerComponent = ({
         height: "100vh",
       }}
     >
-      <Toolbar />
-      {/* Logo should replace the toolbar  */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          margin: 10,
+        }}
+      >
+        <img src={Logo} alt="Eswatini Business Directory" height="80" />
+      </div>
       <Divider />
       <List>
         {categories.map((category, index) => (
@@ -46,7 +56,7 @@ const DrawerComponent = ({
               p: 0.2,
               textAlign: "center",
               "&:hover": {
-                bgcolor: "#1C1D22",
+                bgcolor: "#F26522",
               },
             }}
           />

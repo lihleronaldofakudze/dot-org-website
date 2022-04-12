@@ -6,6 +6,9 @@ import { useNavigate } from "react-router-dom";
 // Firebase
 import { useFirebase, useFirestore } from "react-redux-firebase";
 
+// Image
+import Logo from "../images/dotorg.png";
+
 // Components
 import AlertDialog from "../dialogs/AlertDialog";
 
@@ -102,6 +105,16 @@ const RegisterPage = () => {
   };
   return (
     <Container maxWidth="sm" sx={{ p: 1 }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          margin: 5,
+        }}
+      >
+        <img src={Logo} alt="Eswatini Business Directory" height="100" />
+      </div>
       <Typography variant="h4" color="initial" sx={{ textAlign: "center" }}>
         Welcome to Dot Org
       </Typography>
@@ -147,7 +160,7 @@ const RegisterPage = () => {
       />
       <LoadingButton
         variant="contained"
-        color="primary"
+        color="secondary"
         loading={loading}
         fullWidth
         sx={{ mt: 2 }}

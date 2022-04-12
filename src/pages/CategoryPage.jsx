@@ -13,7 +13,7 @@ const CategoryPage = () => {
   return (
     <Container maxWidth="xl" sx={{ py: 2 }}>
       <Typography variant="h4" color="initial" sx={{ textAlign: "center" }}>
-        {category} Category
+        {category}
       </Typography>
     </Container>
   );

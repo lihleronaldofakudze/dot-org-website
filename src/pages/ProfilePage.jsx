@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 // React Router Dom
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 // Firebase
 import { useSelector } from "react-redux";
@@ -15,9 +15,14 @@ const ProfilePage = () => {
   // Variables
   const firebase = useFirebase();
   const auth = useSelector((state) => state.firebase.auth);
+  const navigate = useNavigate();
 
   // State
   const [loading, setLoading] = useState();
+
+  const changePage = (page) => {
+    navigate(page);
+  };
 
   const logOut = async () => {
     setLoading(true);
@@ -32,7 +37,12 @@ const ProfilePage = () => {
   return (
     <>
       <h1>Profile Page</h1>
-      <Button variant="contained" color="warning" sx={{ mr: 2 }}>
+      <Button
+        variant="contained"
+        color="warning"
+        sx={{ mr: 2 }}
+        onClick={() => changePage("/forgot_password")}
+      >
         Change Password
       </Button>
       <LoadingButton

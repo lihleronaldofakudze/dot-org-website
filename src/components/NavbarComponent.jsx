@@ -7,6 +7,9 @@ import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
+// images
+import Logo from "../images/dotorg.png";
+
 // Components
 import UserComponent from "./UserComponent";
 import DrawerComponent from "./DrawerComponent";
@@ -47,7 +50,7 @@ const NavbarComponent = (props) => {
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar
-        position="fixed"
+        position="absolute"
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
@@ -89,9 +92,11 @@ const NavbarComponent = (props) => {
                   "&:hover": {
                     color: "#1C1D22",
                   },
+                  display: "flex",
+                  alignItems: "center",
                 }}
               >
-                DOT-ORG
+                <img src={Logo} alt="Eswatini Business Directory" height="50" />
               </Typography>
             </Grid>
             <Grid item md={6}>
@@ -135,7 +140,7 @@ const NavbarComponent = (props) => {
           width: { sm: `calc(100% - ${drawerWidth}px)` },
         }}
       >
-        <Toolbar />
+        <Toolbar sx={{ mt: desktop ? 2 : 0 }} />
         {desktop ? <></> : <Toolbar />}
         {props.children}
       </Box>

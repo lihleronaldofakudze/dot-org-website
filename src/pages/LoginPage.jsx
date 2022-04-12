@@ -6,6 +6,9 @@ import { useNavigate } from "react-router-dom";
 // Firebase
 import { useFirebase } from "react-redux-firebase";
 
+// Image
+import Logo from "../images/dotorg.png";
+
 // Components
 import AlertDialog from "../dialogs/AlertDialog";
 
@@ -83,6 +86,16 @@ const LoginPage = () => {
 
   return (
     <Container maxWidth="sm" sx={{ p: 1 }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          margin: 5,
+        }}
+      >
+        <img src={Logo} alt="Eswatini Business Directory" height="100" />
+      </div>
       <Typography variant="h4" color="initial" sx={{ textAlign: "center" }}>
         Welcome back to Dot Org
       </Typography>
@@ -119,7 +132,7 @@ const LoginPage = () => {
       <LoadingButton
         variant="contained"
         loading={loading}
-        color="primary"
+        color="secondary"
         fullWidth
         sx={{ mt: 2 }}
         onClick={() => login()}
